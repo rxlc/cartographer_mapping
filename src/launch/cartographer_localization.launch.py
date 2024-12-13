@@ -12,8 +12,9 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir', default=os.path.join(
         get_package_share_directory('cartographer_launch'), 'config'))
-    configuration_basename = LaunchConfiguration('configuration_basename', default='rplidar_2d.lua')
-
+    configuration_basename = LaunchConfiguration('configuration_basename', 
+        default='rplidar_localization.lua')
+    
     rviz_config_dir = os.path.join(get_package_share_directory('cartographer_ros'), 'configuration_files')
     rviz_config_file = os.path.join(rviz_config_dir, 'demo_2d.rviz')
 
@@ -22,6 +23,7 @@ def generate_launch_description():
             'use_sim_time',
             default_value='false',
             description='Use simulation (Gazebo) clock if true'),
+
 
         DeclareLaunchArgument(
             'cartographer_config_dir',
@@ -40,7 +42,8 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=['-configuration_directory', cartographer_config_dir,
-                       '-configuration_basename', configuration_basename]),
+                      '-configuration_basename', configuration_basename,
+                      '-load_state_filename', '/home/quinton/Documents/cartographer_mapping/maps/my_map.pbstream']),
 
         Node(
             package='cartographer_ros',
@@ -48,14 +51,12 @@ def generate_launch_description():
             name='cartographer_occupancy_grid_node',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time}],
-            arguments=['-resolution', '0.05', '-publish_period_sec', '1.0']
-        ),
+            arguments=['-resolution', '0.05', '-publish_period_sec', '1.0']),
 
         Node(
             package='rplidar_ros',
             executable='rplidar_node',
             name='rplidar_node',
-            output='screen',
             parameters=[{
                 'serial_port': '/dev/ttyUSB0',
                 'serial_baudrate': 115200,
@@ -63,13 +64,12 @@ def generate_launch_description():
                 'inverted': False,
                 'angle_compensate': True,
             }]),
-    
+
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='base_to_laser_tf',
-            arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'laser']
-        ),
+            arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'laser']),
 
         Node(
             package='rviz2',
@@ -77,6 +77,5 @@ def generate_launch_description():
             name='rviz2',
             arguments=['-d', rviz_config_file],
             parameters=[{'use_sim_time': use_sim_time}],
-            output='screen'
-        )
+            output='screen')
     ])
