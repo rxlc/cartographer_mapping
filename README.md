@@ -28,7 +28,7 @@ sudo chmod 666 /dev/ttyUSB0
 
 Launch Cartographer SLAM:
 ```
-ros2 launch cartographer_launch cartographer_rplidar.launch.py
+ros2 launch cartograZSSpher_launch cartographer_rplidar.launch.py
 ```
 
 RViz2 should automatically start and display the map being built.
@@ -40,12 +40,9 @@ To save the generated map:
 
 In a new terminal, run:
 ```
-ros2 run nav2_map_server map_saver_cli -f ~/maps/my_map
-
+ros2 run nav2_map_server map_saver_cli -f ./maps/my_map
 ```
 
 Replace `my_map` with your desired filename.
 
 This will save two files: `my_map.pgm` (the map image) and `my_map.yaml` (the map metadata).
-
-
