@@ -1,0 +1,34 @@
+# Build and install directories
+install/
+log/
+build/
+
+# Generated documentation
+*.dox
+*.wikidoc
+
+# Eclipse IDE files
+.project
+.cproject
+
+# Qt Creator files
+CMakeLists.txt.user
+*.user
+
+# Python-related files
+srv/_*.py
+*.pyc
+__pycache__/
+
+# Point cloud data files
+*.pcd
+
+# Temporary files
+*~
+
+# Emacs temporary files
+.#*
+
+# Colcon custom files
+COLCON_IGNORE
+AMENT_IGNORE
