@@ -15,8 +15,9 @@ def generate_launch_description():
     configuration_basename = LaunchConfiguration('configuration_basename', 
         default='rplidar_localization.lua')
     
-    rviz_config_dir = os.path.join(get_package_share_directory('cartographer_ros'), 'configuration_files')
-    rviz_config_file = os.path.join(rviz_config_dir, 'demo_2d.rviz')
+    rviz_config_dir = os.path.join(get_package_share_directory('cartographer_launch'),
+        'config',
+        'mapping.rviz')
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -75,7 +76,7 @@ def generate_launch_description():
             package='rviz2',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d', rviz_config_file],
+            arguments=['-d', rviz_config_dir],
             parameters=[{'use_sim_time': use_sim_time}],
             output='screen')
     ])
